@@ -25,7 +25,7 @@ class AccidentHistoryFragment : Fragment() {
         val accidentHistoryRVAdapter = AccidentHistoryRVAdapter(accidentHistoryList)
         accidentHistoryRVAdapter.setOnItemClickListener(object : AccidentHistoryRVAdapter.OnItemClickListener {
             override fun onItemClick(pos: Int) {
-                val intent = Intent(activity, AccidentDetailActivity::class.java)
+                val intent = Intent(activity, AccidentHistoryDetailActivity::class.java)
                 startActivity(intent)
             }
         })

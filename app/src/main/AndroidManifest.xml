@@ -51,6 +51,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".AccidentHistoryDetailActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".AccidentHelpActivity"
             android:exported="true">
         </activity>
