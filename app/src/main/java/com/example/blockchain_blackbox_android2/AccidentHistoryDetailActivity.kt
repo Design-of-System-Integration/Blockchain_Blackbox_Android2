@@ -2,20 +2,20 @@ package com.example.blockchain_blackbox_android2
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.blockchain_blackbox_android2.databinding.ActivityAccidentDetailBinding
+import com.example.blockchain_blackbox_android2.databinding.ActivityAccidentHistoryDetailBinding
 
-class AccidentDetailActivity: AppCompatActivity(){
-    private lateinit var binding: ActivityAccidentDetailBinding
+class AccidentHistoryDetailActivity: AppCompatActivity(){
+    private lateinit var binding: ActivityAccidentHistoryDetailBinding
     var myVideoList: ArrayList<Video> = ArrayList<Video>()
     var nearCarVideoList: ArrayList<Video> = ArrayList<Video>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAccidentDetailBinding.inflate(layoutInflater)
+        binding = ActivityAccidentHistoryDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -34,9 +34,9 @@ class AccidentDetailActivity: AppCompatActivity(){
             }
         })
 
-        val myCarVideoLinearLayoutManager = LinearLayoutManager(this)
-        myCarVideoLinearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        binding.rvMyCarVideo.layoutManager = myCarVideoLinearLayoutManager
+        val myVideoLinearLayoutManager = LinearLayoutManager(this)
+        myVideoLinearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        binding.rvMyCarVideo.layoutManager = myVideoLinearLayoutManager
         binding.rvMyCarVideo.adapter = myCarVideoRVAdapter
 
         val nearCarVideoRVAdapter = NearCarVideoRVAdapter(nearCarVideoList)
@@ -51,11 +51,5 @@ class AccidentDetailActivity: AppCompatActivity(){
         nearCarVideoLinearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.rvNearCarVideo.layoutManager = nearCarVideoLinearLayoutManager
         binding.rvNearCarVideo.adapter = nearCarVideoRVAdapter
-
-        binding.tvBtnOk.setOnClickListener{
-            Toast.makeText(applicationContext, "처리 완료가 되었습니다", Toast.LENGTH_SHORT).show()
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

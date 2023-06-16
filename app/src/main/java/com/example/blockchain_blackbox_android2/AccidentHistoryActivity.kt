@@ -1,10 +1,11 @@
 package com.example.blockchain_blackbox_android2
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.blockchain_blackbox_android2.databinding.ActivityAccidentHistoryBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class AccidentHistoryActivity: AppCompatActivity() {
     private lateinit var binding: ActivityAccidentHistoryBinding
@@ -15,20 +16,18 @@ class AccidentHistoryActivity: AppCompatActivity() {
         binding = ActivityAccidentHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        accidentHistoryList.add(AccidentHistory("", "2023-06-05", "잠실역 사고", "진행 중"))
-        accidentHistoryList.add(AccidentHistory("", "2023-06-03", "삼성역 사고", "완료"))
+        val roleVPAdapter = RoleVPAdapter(
+            supportFragmentManager,
+            lifecycle
+        )
+        val viewPager2 = findViewById<ViewPager2>(R.id.vp_role)
+        viewPager2.adapter = roleVPAdapter
 
-        val accidentHistoryRVAdapter = AccidentHistoryRVAdapter(accidentHistoryList)
-        accidentHistoryRVAdapter.setOnItemClickListener(object : AccidentHistoryRVAdapter.OnItemClickListener {
-            override fun onItemClick(pos: Int) {
-                val intent = Intent(applicationContext, AccidentDetailActivity::class.java)
-                startActivity(intent)
-            }
-        })
-
-        val accidentHistoryLinearLayoutManager = LinearLayoutManager(this)
-        accidentHistoryLinearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        binding.rvAccidentHistory.layoutManager = accidentHistoryLinearLayoutManager
-        binding.rvAccidentHistory.adapter = accidentHistoryRVAdapter
+        val tabLayout = findViewById<TabLayout>(R.id.tab_layout_role)
+        TabLayoutMediator(
+            tabLayout, viewPager2
+        ) { tab, position ->
+            if (position == 0) tab.text = "사고 당사자" else if (position == 1) tab.text = "도와준 이력"
+        }.attach()
     }
 }

@@ -9,21 +9,20 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.blockchain_blackbox_android2.databinding.ActivityAccidentRequestBinding
+import com.example.blockchain_blackbox_android2.databinding.ActivityAccidentHelpBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-class AccidentRequestActivity : AppCompatActivity(){
-    private lateinit var binding: ActivityAccidentRequestBinding
-    var requestVideoList: ArrayList<Video> = ArrayList<Video>()
+class AccidentHelpActivity : AppCompatActivity(){
+    private lateinit var binding: ActivityAccidentHelpBinding
+    var helpVideoList: ArrayList<Video> = ArrayList<Video>()
     var nearCarVideoList: ArrayList<Video> = ArrayList<Video>()
-    lateinit var requestVideoRVAdapter: RequestVideoRVAdapter
+    lateinit var helpVideoRVAdapter: HelpVideoRVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAccidentRequestBinding.inflate(layoutInflater)
+        binding = ActivityAccidentHelpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.tvGallery.setOnClickListener{
@@ -40,25 +39,25 @@ class AccidentRequestActivity : AppCompatActivity(){
         }
 
         binding.tvBtnOk.setOnClickListener{
-            Toast.makeText(applicationContext, "요청이 접수되었습니다", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "도움이 접수되었습니다", Toast.LENGTH_SHORT).show()
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
         }
 
-        requestVideoRVAdapter = RequestVideoRVAdapter(requestVideoList, this)
-        requestVideoRVAdapter.setOnItemClickListener(object : RequestVideoRVAdapter.OnItemClickListener {
+        helpVideoRVAdapter = HelpVideoRVAdapter(helpVideoList, this)
+        helpVideoRVAdapter.setOnItemClickListener(object : HelpVideoRVAdapter.OnItemClickListener {
             override fun onItemClick(pos: Int) {
                 val intent = Intent(applicationContext, VideoPlayActivity::class.java)
-                intent.putExtra("uri", requestVideoList[pos].uri.toString())
-                Log.d("uri:", requestVideoList[pos].uri.toString())
+                intent.putExtra("uri", helpVideoList[pos].uri.toString())
+                Log.d("uri:", helpVideoList[pos].uri.toString())
                 startActivity(intent)
             }
         })
 
-        val requestVideoLinearLayoutManager = LinearLayoutManager(this)
-        requestVideoLinearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        binding.rvMyVideo.layoutManager = requestVideoLinearLayoutManager
-        binding.rvMyVideo.adapter = requestVideoRVAdapter
+        val helpVideoLinearLayoutManager = LinearLayoutManager(this)
+        helpVideoLinearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        binding.rvMyVideo.layoutManager = helpVideoLinearLayoutManager
+        binding.rvMyVideo.adapter = helpVideoRVAdapter
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -69,9 +68,9 @@ class AccidentRequestActivity : AppCompatActivity(){
                 if (resultCode == RESULT_OK) {
                     val uri: Uri? = data?.data
                     Log.d("uri", uri.toString())
-                   // imageView.setImageURI(uri)
-                    requestVideoList.add(Video(uri, "hello1", ""))
-                    requestVideoRVAdapter.notifyDataSetChanged()
+                    // imageView.setImageURI(uri)
+                    helpVideoList.add(Video(uri, "hello1", ""))
+                    helpVideoRVAdapter.notifyDataSetChanged()
 
                     binding.tvAccidentDateInfo.text = extractDate(this, uri.toString()).toString()
                 }

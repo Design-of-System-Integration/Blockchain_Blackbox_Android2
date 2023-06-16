@@ -1,22 +1,30 @@
 package com.example.blockchain_blackbox_android2
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.MediaController
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
+import com.example.blockchain_blackbox_android2.databinding.ActivityAlarmBinding
+import com.example.blockchain_blackbox_android2.databinding.ActivityVideoPlayBinding
+
 
 class VideoPlayActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityVideoPlayBinding
     var videoView: VideoView? = null
     var btnStart: Button? = null
     var btnStop: Button? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_play)
+        binding = ActivityVideoPlayBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         /**
          * 영상을 출력하기 위한 비디오뷰
          * SurfaceView를 상속받아 만든 클래스
@@ -24,42 +32,51 @@ class VideoPlayActivity : AppCompatActivity() {
          * 화면 전환 시 여러 UI가 있을 때 화면에 제일 먼저 그려져서 보기에 좋지 않을 때가 있다
          * 예제에서 xml에 추가해서 해봄
          */
-        //레이아웃 위젯 findViewById
-        videoView = findViewById<View>(R.id.vv_video_play) as VideoView
-        //        btnStart = (Button) findViewById(R.id.btnStart);
+        val intent = intent //전달할 데이터를 받을 Intent
+        if(intent != null) {
+            val uriString = intent.getStringExtra("uri").toString()
+
+
+            //레이아웃 위젯 findViewById
+            videoView = findViewById<View>(R.id.vv_video_play) as VideoView
+            //        btnStart = (Button) findViewById(R.id.btnStart);
 //        btnStop = (Button) findViewById(R.id.btnStop);
 
-        //미디어컨트롤러 추가하는 부분
-        val controller = MediaController(this@VideoPlayActivity)
-        videoView!!.setMediaController(controller)
+            //미디어컨트롤러 추가하는 부분
+            val controller = MediaController(this@VideoPlayActivity)
+            videoView!!.setMediaController(controller)
 
-        //비디오뷰 포커스를 요청함
-        videoView!!.requestFocus()
-        val type = URL
-        when (type) {
-            URL ->                 //동영상 경로가 URL일 경우
-                videoView!!.setVideoURI(Uri.parse("https://rlpstorage.blob.core.windows.net/container0/accident1.mp4"))
-            SDCARD -> {
-                //동영상 경로가 SDCARD일 경우
-                val path = Environment.getExternalStorageDirectory()
-                    .toString() + "/TestVideo.mp4"
-                videoView!!.setVideoPath(path)
+            //비디오뷰 포커스를 요청함
+            videoView!!.requestFocus()
+            val type = URL
+            when (type) {
+                URL ->                 //동영상 경로가 URL일 경우
+                    videoView!!.setVideoURI(Uri.parse(uriString))
+                SDCARD -> {
+                    //동영상 경로가 SDCARD일 경우
+                    val path = Environment.getExternalStorageDirectory()
+                        .toString() + "/TestVideo.mp4"
+                    videoView!!.setVideoPath(path)
+                }
+            }
+
+
+            //동영상이 재생준비가 완료되었을 때를 알 수 있는 리스너 (실제 웹에서 영상을 다운받아 출력할 때 많이 사용됨)
+            videoView!!.setOnPreparedListener { //                Toast.makeText(VideoPlayActivity.this,
+                //                        "동영상이 준비되었습니다. \n'시작' 버튼을 누르세요", Toast.LENGTH_SHORT).show();
+                playVideo()
+            }
+
+            //동영상 재생이 완료된 걸 알 수 있는 리스너
+            videoView!!.setOnCompletionListener { //동영상 재생이 완료된 후 호출되는 메소드
+                Toast.makeText(
+                    this@VideoPlayActivity,
+                    "동영상 재생이 완료되었습니다.", Toast.LENGTH_SHORT
+                ).show()
             }
         }
-
-
-        //동영상이 재생준비가 완료되었을 때를 알 수 있는 리스너 (실제 웹에서 영상을 다운받아 출력할 때 많이 사용됨)
-        videoView!!.setOnPreparedListener { //                Toast.makeText(VideoPlayActivity.this,
-            //                        "동영상이 준비되었습니다. \n'시작' 버튼을 누르세요", Toast.LENGTH_SHORT).show();
-            playVideo()
-        }
-
-        //동영상 재생이 완료된 걸 알 수 있는 리스너
-        videoView!!.setOnCompletionListener { //동영상 재생이 완료된 후 호출되는 메소드
-            Toast.makeText(
-                this@VideoPlayActivity,
-                "동영상 재생이 완료되었습니다.", Toast.LENGTH_SHORT
-            ).show()
+        else{
+            Log.d("intent is null", "")
         }
     }
 

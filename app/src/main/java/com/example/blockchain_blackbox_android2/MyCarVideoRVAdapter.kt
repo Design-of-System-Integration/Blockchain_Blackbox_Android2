@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.blockchain_blackbox_android2.databinding.ItemVideoBinding
 
-class MyVideoRVAdapter(private var accidentList: ArrayList<*>) :
-    RecyclerView.Adapter<MyVideoRVAdapter.ViewHolder>() {
+class MyCarVideoRVAdapter(private var accidentList: ArrayList<*>) :
+    RecyclerView.Adapter<MyCarVideoRVAdapter.ViewHolder>() {
     inner class ViewHolder(binding: ItemVideoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         var thumbnail: ImageView

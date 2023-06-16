@@ -4,6 +4,11 @@
     package="com.example.blockchain_blackbox_android2">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
 
     <application
         android:allowBackup="true"
@@ -14,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Blockchain_Blackbox_Android2"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -44,9 +50,28 @@
             android:name=".AccidentHistoryActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".AccidentHelpActivity"
+            android:exported="true">
+        </activity>
+        <activity
+             android:name=".MapRequestActivity"
+             android:exported="true">
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AlarmActivity"
+            android:exported="true">
+        </activity>
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="wxw9zimbo4" />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="1a4551d2b9bcd2ba7ab526029627142c"/>
     </application>
 
 </manifest>
